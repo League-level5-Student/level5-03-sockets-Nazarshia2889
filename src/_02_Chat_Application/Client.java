@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class Client {
 	private String ip;
@@ -15,10 +17,13 @@ public class Client {
 
 	ObjectOutputStream os;
 	ObjectInputStream is;
+	
+	ChatApp chat;
 
-	public Client(String ip, int port) {
+	public Client(String ip, int port, ChatApp chat) {
 		this.ip = ip;
 		this.port = port;
+		this.chat = chat;
 	}
 
 	public void start(){
@@ -40,6 +45,7 @@ public class Client {
 		while (connection.isConnected()) {
 			try {
 				JOptionPane.showMessageDialog(null, is.readObject());
+				chat.history += "Server: " + (String) is.readObject();
 				System.out.println(is.readObject());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -48,10 +54,10 @@ public class Client {
 		}
 	}
 	
-	public void sendClick() {
+	public void sendMessage(String message) {
 		try {
 			if (os != null) {
-				os.writeObject("CLICK SENT FROM CLIENT");
+				os.writeObject("Client sent: " + message);
 				os.flush();
 			}
 		} catch (IOException e) {
