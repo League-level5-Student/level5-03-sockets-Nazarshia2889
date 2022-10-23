@@ -44,9 +44,11 @@ public class Client {
 		
 		while (connection.isConnected()) {
 			try {
-				JOptionPane.showMessageDialog(null, is.readObject());
-				chat.history += "Server: " + (String) is.readObject();
-				System.out.println(is.readObject());
+				String message = (String) is.readObject();
+				JOptionPane.showMessageDialog(null, message);
+				String input = chat.history + "\n" +  "Server: " + message;
+				chat.label.setText(input);
+				System.out.println(message);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -57,7 +59,7 @@ public class Client {
 	public void sendMessage(String message) {
 		try {
 			if (os != null) {
-				os.writeObject("Client sent: " + message);
+				os.writeObject(message);
 				os.flush();
 			}
 		} catch (IOException e) {

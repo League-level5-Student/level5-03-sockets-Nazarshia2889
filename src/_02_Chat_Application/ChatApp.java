@@ -39,7 +39,8 @@ public class ChatApp extends JFrame{
 			JOptionPane.showMessageDialog(null, "Server started at: " + server.getIPAddress() + "\nPort: " + server.getPort());
 			button.addActionListener((e)->{
 				server.sendMessage(text.getText());
-				label.setText(history + "\nServer: " + text.getText());
+				history += "\nServer: " + text.getText();
+				label.setText(history);
 			});
 			setSize(600, 100);
 			text.setSize(50, 25);
@@ -60,7 +61,8 @@ public class ChatApp extends JFrame{
 			client = new Client(ipStr, port, this);
 			button.addActionListener((e)->{
 				client.sendMessage(text.getText());
-				label.setText(history + "\nClient: " + text.getText());
+				history += "\nClient: " + text.getText();
+				label.setText(history);
 			});
 			setSize(600, 100);
 			text.setSize(50, 25);

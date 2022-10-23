@@ -40,9 +40,11 @@ public class Server {
 
 			while (connection.isConnected()) {
 				try {
-					JOptionPane.showMessageDialog(null, is.readObject());
-					chatApp.history += "Client: " + (String) is.readObject();
-					System.out.println(is.readObject());
+					String message = (String) is.readObject();
+					JOptionPane.showMessageDialog(null, message);
+					String input = chatApp.history + "\n" +  "Client: " + message;
+					chatApp.label.setText(input);
+					System.out.println(message);
 					
 				}catch(EOFException e) {
 					JOptionPane.showMessageDialog(null, "Connection Lost");
@@ -70,7 +72,7 @@ public class Server {
 	public void sendMessage(String message) {
 		try {
 			if (os != null) {
-				os.writeObject("Server sent: " + message);
+				os.writeObject(message);
 				os.flush();
 			}
 		} catch (IOException e) {
